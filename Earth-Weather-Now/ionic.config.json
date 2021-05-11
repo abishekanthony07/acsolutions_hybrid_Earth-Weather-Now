@@ -1,0 +1,7 @@
+{
+  "name": "Earth-Weather-Now",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
