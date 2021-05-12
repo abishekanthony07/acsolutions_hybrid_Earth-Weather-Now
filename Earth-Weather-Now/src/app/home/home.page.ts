@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { WeatherService } from '../api/weather.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,10 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
+
+  async getData() {
+    new WeatherService(this.httpClient).getData("", "10117", "")
+  }
 
 }
