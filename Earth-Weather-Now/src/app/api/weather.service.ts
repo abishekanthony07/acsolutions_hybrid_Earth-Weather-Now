@@ -12,17 +12,18 @@ export class WeatherService {
 
   constructor(private httpClient: HttpClient) {}
   
-  //get Data for city, stateCode or CountryCode
+  //get Data for city (zip also allowed) (with [stateCode] or [CountryCode])
   //all params can be set AND the described sequence is the sequence for the params!
   //if param not needed set it to ""
+  //request only successful if city or zip code is valid
   public getData(city:string, stateCode: string, countryCode: string) {
-    if(city !== "" || stateCode !== "" || countryCode !== ""){
+    if(city !== ""){
       let serverUrl = this.getServerUrl(city, stateCode, countryCode)
      
      this.httpClient.get(serverUrl)
                     .subscribe(this.validateSuccess, this.validateFailed)
     }else{
-      //Error: Please enter valid Data
+      //Error: Please enter a city Data
     }
   };
 
