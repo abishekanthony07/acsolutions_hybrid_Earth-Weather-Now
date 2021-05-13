@@ -12,7 +12,7 @@ export class HomePage {
   constructor(private httpClient: HttpClient) {}
 
   async getData() {
-    new WeatherService(this.httpClient).getData("", "10117", "")
+    new WeatherService(this.httpClient).getData("10117", "", "")
   }
 
 }
