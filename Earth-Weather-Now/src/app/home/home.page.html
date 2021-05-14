@@ -10,12 +10,19 @@
   </ion-toolbar>
 
   <ion-toolbar color="primary">
-    <ion-searchbar placeholder="Ort oder PLZ" ></ion-searchbar>
+    <ion-searchbar [(ngModel)]="city" placeholder="Ort oder PLZ" autocomplete="postal-code"></ion-searchbar>
     <ion-buttons slot="primary">
-      <ion-button color="light">
+      <ion-button color="light" (click)="onErweitert()">
        erweitert
       </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="tertiary" *ngIf="erweiterteSuche">
+    <ion-item lines="none" color="primary">
+        <ion-input [(ngModel)]="stateCode" placeholder="optional: Statecode" autocomplete="country-code" colo></ion-input>
+      	<ion-input [(ngModel)]="laenderCode" placeholder="optional: Ländercode" maxlength="2" minlegth="2" value="string"></ion-input>
+    </ion-item>
   </ion-toolbar>
 
 </ion-header>
@@ -37,8 +44,8 @@
             </p>
             <p>
               Um das <b>Wetter anzuzeigen</b> müssen Sie <b>in der Suche die Postleitzah</b>l oder den <b>Ort eingeben</b> und die Suche starten. Eine erweiterte
-              Suche kann mit dem zugehörigen Button durchgeführt werden. Ihre <b>Suchverlauf mit dem Ergebnis der Daten wird</b> von dieser App <b>gespeichert
-              und kann</b> über das <ion-icon name="menu-outline"></ion-icon> <b> angezeigt und bearbeitet werden</b>.
+              Suche kann mit dem zugehörigen Button durchgeführt werden. Ihre <b>Suche mit dem Ergebnis der Daten kann</b> von dieser App <b>gespeichert
+              werden und kann</b> über das <ion-icon name="menu-outline"></ion-icon> <b> angezeigt sowie bearbeitet werden</b>.
             </p>
           </ion-text>
         </ion-item>
@@ -64,6 +71,8 @@
       <!-- Temperatur eines Ortes mit Wetter-->
       <ion-item lines="none"> 
         <ion-text class="center"><img src="../../assets/wetter/sonne/sonne.png"></ion-text>
+      </ion-item>
+      <ion-item lines="none">
         <ion-text class="center">Beschreibung des Wetters</ion-text>
       </ion-item>
       <ion-item-divider>
