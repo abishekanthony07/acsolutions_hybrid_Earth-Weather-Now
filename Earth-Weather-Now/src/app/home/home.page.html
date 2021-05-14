@@ -10,8 +10,11 @@
   </ion-toolbar>
 
   <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="city" placeholder="Ort oder PLZ" autocomplete="postal-code"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="city" enterkeyhint="enter" placeholder="Ort oder PLZ" autocomplete="postal-code" mode="ios"></ion-searchbar>
     <ion-buttons slot="primary">
+      <ion-button color="light" (click)="search()">
+        <ion-icon name="search-circle-outline"></ion-icon>
+       </ion-button>
       <ion-button color="light" (click)="onErweitert()">
        erweitert
       </ion-button>
@@ -30,7 +33,7 @@
 
 
 <ion-content [fullscreen]="true" color="primary">
-    <ion-card>
+    <ion-card *ngIf="!closeInformation">
       <ion-item-group>
         <ion-item-divider>
           <ion-label color="warning"><b>Informationen</b></ion-label>
@@ -51,9 +54,9 @@
         </ion-item>
 
         <ion-item>
-          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-checkbox slot="start" [(ngModel)]="showHomeInformation" (click)="hideInformationPressed()"></ion-checkbox>
           <ion-label>Nicht mehr anzeigen</ion-label>
-          <ion-button slot="end" color="secondary" (click)="getData()">schließen</ion-button>
+          <ion-button slot="end" color="secondary" (click)="closeButtonPressed()">schließen</ion-button>
         </ion-item>
       </ion-item-group>
     </ion-card>
@@ -70,7 +73,7 @@
 
       <!-- Temperatur eines Ortes mit Wetter-->
       <ion-item lines="none"> 
-        <ion-text class="center"><img src="../../assets/wetter/sonne/sonne.png"></ion-text>
+        <ion-text class="center"><img [src]="wetterBildSource"></ion-text>
       </ion-item>
       <ion-item lines="none">
         <ion-text class="center">Beschreibung des Wetters</ion-text>

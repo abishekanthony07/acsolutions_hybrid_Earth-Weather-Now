@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { WeatherService } from '../api/weather.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 
+import { Storage } from '@ionic/storage';
+import { SpeicherService } from '../speicher.service';
+import { AlertController } from '@ionic/angular';
+import { stringify } from '@angular/compiler/src/util';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -12,15 +17,53 @@ export class HomePage {
   private city: string;
   private stateCode: string;
   private laenderCode: string;
+  private showHomeInformation: boolean = false;
+  private closeInformation: boolean = false
 
-  constructor(private httpClient: HttpClient) {
+  private wetterBildSource = "../../assets/wetter/sonne/sonne.png";
+
+  constructor(private httpClient: HttpClient, private speicherservice: SpeicherService, private alertController: AlertController) {
     this.erweiterteSuche = false
+    this.loadHideInformation()
+  }
+  /**Search and show data functions */
+  async search(){
+    var dataToShow = new WeatherService(this.httpClient).getData(this.city, this.stateCode, this.laenderCode, this.success, this.failed);
+    if (!dataToShow){
+      this.alertUser("Ungültige Eingabe!", "Bitte geben Sie etwas in die Suche ein, damit die Suche gestartet werden kann!")
+    }
   }
 
-  async getData() {
-    new WeatherService(this.httpClient).getData(this.city, this.stateCode, this.laenderCode);
+  async success(jsonResult: any){
+    console.log(jsonResult)
+  }
+  async failed(titel: string, message: string){
+    console.log(titel, message)
   }
 
+  async alertUser(titel: string, nachricht: string){
+    const alert = await this.alertController.create({
+      cssClass: 'alertMessage',
+      header: titel,
+      subHeader: '',
+      message: nachricht,
+      buttons: ['OK']
+    });
+    await alert.present()
+  }
+
+  /**Information functions */
+  async loadHideInformation(){
+    this.showHomeInformation = await this.speicherservice.getHideInformation()
+    this.closeInformation = this.showHomeInformation
+  }
+
+  async closeButtonPressed() {
+    this.closeInformation = true
+    this.speicherservice.setHideInformation(this.showHomeInformation)
+  }
+
+  /** Toolbar functions */
   async onErweitert(){
     this.erweiterteSuche = !this.erweiterteSuche;
     this.resetErweitertValuesIfHidden()

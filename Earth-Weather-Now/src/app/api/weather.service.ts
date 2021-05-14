@@ -16,24 +16,50 @@ export class WeatherService {
   //all params can be set AND the described sequence is the sequence for the params!
   //if param not needed set it to ""
   //request only successful if city or zip code is valid
-  public getData(city:string, stateCode: string, countryCode: string) {
-    if(city !== ""){
+  public getData(city:string, stateCode: string, countryCode: string, successful: any, failed: any): boolean {
+    if(city !== undefined && city !== ""){
       let serverUrl = this.getServerUrl(city, stateCode, countryCode)
      
      this.httpClient.get(serverUrl)
-                    .subscribe(this.validateSuccess, this.validateFailed)
+                    .subscribe((httpResponse:any) => {successful(httpResponse)}, 
+                    (failure: HttpErrorResponse) => {
+                        switch(failure.status){
+                          case 400:{
+                            failed("Ungültige Suchanfrage!", "Überprüfen Sie bitte Ihre Eingaben.")
+                            break;
+                          }
+                          case 401:{
+                            failed("Ungültige Authentifizierung!", "Eine Authentifizierung ist erforderlich.")
+                            break;
+                          }
+                          case 403:{
+                            failed("Verboten!", "Es sind keine Zugriffsrechte auf den Inhalt vorhanden.")
+                            break;
+                          }
+                          case 404:{
+                            failed("Nichts gefunden!", "Für Ihre Suchanfrage konnte nichts gefunden werden.")
+                            break;
+                          }
+                          case 409:{
+                            failed("Konflikt!", "Bitte versuchen Sie es später nocheinmal.")
+                            break;
+                          }
+                          case 429:{
+                            failed("Zu viele Anfragen!", "Bitte versuchen Sie es später nocheinmal.")
+                            break;
+                          }
+                          default:{
+                            failed(`Status-code: ${failure.status}`, failure.message)
+                            break;
+                          }
+                        }
+                  })
+                    
+      return true
     }else{
-      //Error: Please enter a city Data
+      return false
     }
   };
-
-  private validateSuccess = (httpResponse:any) => {
-    	console.log(httpResponse)
-  }
-
-  private validateFailed = (failure: HttpErrorResponse) => {
-    console.log(`Request failed: ${failure.message}`)
-  }
 
   private getServerUrl(city:string, stateCode: string, countryCode: string): string{
     var searchRequest = "q="
@@ -46,7 +72,7 @@ export class WeatherService {
 
   //Add Values to searchRequest-String if the value is valid!
   private setUpSearchRequest(searchRequest: string, value: string): string{
-    if (value !== ""){
+    if (value !== undefined && value !== ""){
       if(searchRequest !== "q="){
         searchRequest += ","
       }
