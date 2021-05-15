@@ -3,7 +3,7 @@
   <ion-toolbar color="primary">
     <ion-item lines="none" color="primary">
       <ion-thumbnail slot="start">
-        <img src="../../assets/icon/icon.png">
+        <img src="../../assets/icon/icon.png" alt="icon">
       </ion-thumbnail>
       <ion-title>Earth Weather Now</ion-title>
     </ion-item>
@@ -23,148 +23,146 @@
 
   <ion-toolbar color="tertiary" *ngIf="erweiterteSuche">
     <ion-item lines="none" color="primary">
-        <ion-input [(ngModel)]="stateCode" placeholder="optional: Statecode" autocomplete="country-code" colo></ion-input>
-      	<ion-input [(ngModel)]="laenderCode" placeholder="optional: Ländercode" maxlength="2" minlegth="2" value="string"></ion-input>
+      <ion-input [(ngModel)]="stateCode" placeholder="optional: Statecode" autocomplete="country-code"></ion-input>
+      <ion-input [(ngModel)]="laenderCode" placeholder="optional: Ländercode" maxlength="2" minlength="2"
+                 value="string"></ion-input>
     </ion-item>
   </ion-toolbar>
 
 </ion-header>
 
-
-
 <ion-content [fullscreen]="true" color="primary">
-    <ion-card *ngIf="!closeInformation">
-      <ion-item-group>
-        <ion-item-divider>
-          <ion-label color="warning"><b>Informationen</b></ion-label>
-        </ion-item-divider>
+  <ion-card *ngIf="!resultExists">
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label color="danger"><b>{{emptyDataTitle}}</b></ion-label>
+      </ion-item-divider>
 
-        <ion-item lines="none">
-          <ion-text>
-            <p>
-              Laden Sie <b>aktuelle Wetterdaten für jeden Ort</b> auf der Erde, einschließlich <b>über 200.000 Städten</b>!<br>
-              Diese <b>Wetterdaten</b> werden <b>aus verschiedenen Quellen durch OpenWeather</b> gesammelt und <b>bereitgestellt</b>.
-            </p>
-            <p>
-              Um das <b>Wetter anzuzeigen</b> müssen Sie <b>in der Suche die Postleitzah</b>l oder den <b>Ort eingeben</b> und die Suche starten. Eine erweiterte
-              Suche kann mit dem zugehörigen Button durchgeführt werden. Ihre <b>Suche mit dem Ergebnis der Daten kann</b> von dieser App <b>gespeichert
-              werden und kann</b> über das <ion-icon name="menu-outline"></ion-icon> <b> angezeigt sowie bearbeitet werden</b>.
-            </p>
-          </ion-text>
-        </ion-item>
+      <ion-item lines="none">
+        <ion-text>
+          <p>
+            {{emptyData}}
+          </p>
+        </ion-text>
+      </ion-item>
+    </ion-item-group>
+  </ion-card>
 
-        <ion-item>
-          <ion-checkbox slot="start" [(ngModel)]="showHomeInformation" (click)="hideInformationPressed()"></ion-checkbox>
-          <ion-label>Nicht mehr anzeigen</ion-label>
-          <ion-button slot="end" color="secondary" (click)="closeButtonPressed()">schließen</ion-button>
-        </ion-item>
-      </ion-item-group>
-    </ion-card>
+  <ion-card *ngIf="!closeInformation">
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label color="danger"><b>Informationen</b></ion-label>
+      </ion-item-divider>
 
-    <ion-card>
+      <ion-item lines="none">
+        <ion-text>
+          <p>
+            Laden Sie <b>aktuelle Wetterdaten für jeden Ort</b> auf der Erde, einschließlich <b>über 200.000 Städten</b>!<br>
+            Diese <b>Wetterdaten</b> werden <b>aus verschiedenen Quellen durch OpenWeather</b> gesammelt und <b>bereitgestellt</b>.
+          </p>
+          <p>
+            Um das <b>Wetter anzuzeigen</b> müssen Sie <b>in der Suche die Postleitzah</b>l oder den <b>Ort eingeben</b>
+            und die Suche starten. Eine erweiterte
+            Suche kann mit dem zugehörigen Button durchgeführt werden. Ihre <b>Suche mit dem Ergebnis der Daten kann</b>
+            von dieser App <b>gespeichert
+            werden und kann</b> über das
+            <ion-icon name="menu-outline"></ion-icon>
+            <b> angezeigt sowie bearbeitet werden</b>.
+          </p>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox slot="start" [(ngModel)]="showHomeInformation"></ion-checkbox>
+        <ion-label>Nicht mehr anzeigen</ion-label>
+        <ion-button slot="end" color="secondary" (click)="closeButtonPressed()">schließen</ion-button>
+      </ion-item>
+    </ion-item-group>
+  </ion-card>
+
+  <ion-card *ngIf="resultExists">
+    <ion-item-group>
       <!-- Beschreibung des Ortes -->
       <ion-item-divider>
-        <ion-label class="center" color="primary">Ortname, LK</ion-label>
+        <ion-label class="center" color="primary"><b>{{cityName}}, {{laenderCode}}</b></ion-label>
       </ion-item-divider>
       <ion-item lines="none">
-        <ion-text class="center">Koordinaten</ion-text>
+        <ion-text class="center"><b>Längengrad:</b> {{coordsLat}}</ion-text>
+        <ion-text class="center"><b>Breitengrad:</b> {{coordsLon}}</ion-text>
       </ion-item>
-      
+
 
       <!-- Temperatur eines Ortes mit Wetter-->
-      <ion-item lines="none"> 
-        <ion-text class="center"><img [src]="wetterBildSource"></ion-text>
-      </ion-item>
       <ion-item lines="none">
-        <ion-text class="center">Beschreibung des Wetters</ion-text>
+        <ion-text class="center"><img [src]="wetterBildSource" alt="weatherImg"></ion-text>
       </ion-item>
       <ion-item-divider>
-        <ion-title class="ion-text-center">10°C</ion-title>
+        <ion-text class="center large-size">{{currentTemp}}°C</ion-text>
       </ion-item-divider>
       <ion-item lines="none">
-        <ion-text class="center">gefühlt: 08°C</ion-text>
+        <ion-text class="center"><b>gefühlt:</b> {{feelsLike}}°C</ion-text>
       </ion-item>
       <ion-grid>
         <!-- Details zur Temperatur -->
-        <ion-row >
-          <ion-col>
-            <ion-item lines="none">
-              <ion-text>T: 10°C</ion-text>
-            </ion-item>
+        <ion-row>
+          <ion-col class="center">
+            <ion-text><b>T:</b> {{minTemp}}°C</ion-text>
           </ion-col>
-          <ion-col>
-            <ion-item lines="none">
-              <ion-text>H: 20°C</ion-text>
-            </ion-item>
+          <ion-col class="center">
+            <ion-text><b>H:</b> {{maxTemp}}°C</ion-text>
           </ion-col>
         </ion-row>
 
         <ion-row>
-         <ion-col>
-          <ion-item lines="none">
-            <ion-text>Feuchtigkeit: 10%</ion-text>
-          </ion-item>
-         </ion-col>
-         <ion-col>
-          <ion-item lines="none">
-            <ion-text>Regen: 10%</ion-text>
-          </ion-item>
-         </ion-col>
+          <ion-col class="center">
+            <ion-text><b>Feuchtigkeit:</b> {{humidity}}%</ion-text>
+          </ion-col>
+          <ion-col class="center">
+            <ion-text><b>Regen:</b> {{rain}}%</ion-text>
+          </ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>
-           <ion-item lines="none">
-             <ion-text>Wind: 10 km/h</ion-text>
-           </ion-item>
+          <ion-col class="center">
+            <ion-text><b>Wind:</b> {{wind}}m/s</ion-text>
           </ion-col>
-          <ion-col>
-           <ion-item lines="none">
-             <ion-text>Luftdruck: 1004 hPa</ion-text>
-           </ion-item>
+          <ion-col class="center">
+            <ion-text><b>Luftdruck:</b> {{pressure}}hPa</ion-text>
           </ion-col>
-         </ion-row>
+        </ion-row>
 
-         <ion-row>
-          <ion-col>
-           <ion-item lines="none">
-             <ion-text>Sichtweite: 10 km</ion-text>
-           </ion-item>
+        <ion-row>
+          <ion-col class="center">
+            <ion-text><b>Sichtweite:</b> {{visibility}}km</ion-text>
           </ion-col>
-          <ion-col>
-           <ion-item lines="none">
-             <ion-text>Luftdruck: 1004 hPa</ion-text>
-           </ion-item>
-          </ion-col>
-         </ion-row>
+        </ion-row>
       </ion-grid>
 
       <ion-item-divider>
-        <ion-label class="center">Zeitzone: 3000</ion-label>
+        <ion-label class="center">UTC+{{timezone}}h</ion-label>
       </ion-item-divider>
       <!-- Sonnen-auf- oder unter-gang eines Ortes -->
       <ion-grid>
         <ion-row class="ion-align-items-center">
           <ion-col>
             <ion-thumbnail>
-              <img src="../../assets/wetter/sonne/sonnenaufgang.png">
+              <img src="../../assets/wetter/sonne/sonnenaufgang.png" alt="sunrise">
             </ion-thumbnail>
           </ion-col>
           <ion-col>
-            <div>7Uhr</div>
+            <div>{{sunrise}} Uhr</div>
           </ion-col>
 
           <ion-col>
             <ion-thumbnail>
-              <img src="../../assets/wetter/sonne/sonnenuntergang.png">
+              <img src="../../assets/wetter/sonne/sonnenuntergang.png" alt="sunset">
             </ion-thumbnail>
           </ion-col>
           <ion-col>
-            <div>7Uhr</div>
+            <div>{{sunset}} Uhr</div>
           </ion-col>
         </ion-row>
-      </ion-grid>   
-
-      <!-- Wetter eines Ortes -->
+      </ion-grid>
+    </ion-item-group>
     </ion-card>
 </ion-content>

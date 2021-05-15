@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { SpeicherService } from './speicher.service';
+import {SpeicherService} from './speicher.service';
 
 describe('SpeicherService', () => {
   let service: SpeicherService;
