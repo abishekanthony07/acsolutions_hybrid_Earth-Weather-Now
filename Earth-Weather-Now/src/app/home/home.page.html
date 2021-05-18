@@ -29,6 +29,11 @@
     </ion-item>
   </ion-toolbar>
 
+  <ion-toolbar *ngIf="resultExists" color="primary">
+    <div class="center" >
+      <ion-button (click)="saveSearch()" color='light' >Suche speichern</ion-button>
+    </div>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" color="primary">

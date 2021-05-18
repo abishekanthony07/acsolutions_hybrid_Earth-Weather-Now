@@ -37,6 +37,7 @@ export class HomePage {
   timezone: string;
   sunrise: string;
   sunset: string;
+  result: any;
 
   constructor(private httpClient: HttpClient, private speicherservice: SpeicherService, private alertController: AlertController) {
     this.loadHideInformation();
@@ -50,7 +51,13 @@ export class HomePage {
     }
   }
 
+  async saveSearch() {
+    this.speicherservice.saveSearch(this.result);
+    console.log(this.speicherservice.getSearchList())
+  }
+
   async success(home: any, jsonResult: any) {
+    home.result = jsonResult;
     home.showResult(true, jsonResult);
   }
 
