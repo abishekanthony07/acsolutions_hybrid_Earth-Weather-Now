@@ -24,9 +24,9 @@ export class OpenWeatherConverterService {
     home.wind = this.checkValueExists(jsonResult.wind, {speed: '---'}).speed;
     home.pressure = jsonResult.main.pressure;
     home.visibility = jsonResult.visibility / 1000;
-    home.timezone = this.convertDate(jsonResult.timezone / 1000);
-    home.sunrise = this.convertDate(jsonResult.sys.sunrise);
-    home.sunset = this.convertDate(jsonResult.sys.sunset);
+    home.timezone = this.convertDate(jsonResult.timezone / 1000).substring(0, 2);
+    home.sunrise = this.convertDate(jsonResult.sys.sunrise).substring(0, 5);
+    home.sunset = this.convertDate(jsonResult.sys.sunset).substring(0, 5);
   }
 
   private static checkValueExists(value: any, defaultValue: any): any {
