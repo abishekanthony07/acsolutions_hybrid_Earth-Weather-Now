@@ -16,19 +16,17 @@ export class SpeicherService {
   }
 
   saveSearch(jsonResult: any){
-    let currentdate = new Date().getMilliseconds.toString();
+    const currentdate = new Date().getMilliseconds.toString();
     this.storage.set(currentdate, jsonResult);
   }
 
   getSearchList(): any{
-      let items = [];
+      const items = [];
       return this.storage.forEach((v,k,i) => {
         if(k !== 'showHomeInformation'){
           items.push(JSON.parse(v));
         }
-      }).then(() => {
-          return items;
-      });
+      }).then(() => items);
   }
 
   getHideInformation(): Promise<boolean> {
