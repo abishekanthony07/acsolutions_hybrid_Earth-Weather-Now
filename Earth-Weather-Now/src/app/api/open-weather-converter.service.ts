@@ -29,25 +29,25 @@ export class OpenWeatherConverterService {
     home.sunset = this.convertDate(jsonResult.sys.sunset).substring(0, 5);
   }
 
-  private static checkValueExists(value: any, defaultValue: any): any {
+  public static checkValueExists(value: any, defaultValue: any): any {
     if (value) {
       return value;
     }
     return defaultValue;
   }
 
-  private static convertTemp(kelvin): string {
+  public static convertTemp(kelvin): string {
     return (kelvin - 273.15).toFixed(0);
   }
 
-  private static convertDate(seconds): string {
+  public static convertDate(seconds): string {
     return new Date(seconds * 1000).toLocaleTimeString(navigator.language, {
       hour: '2-digit',
       minute: '2-digit'
     });
   }
 
-  private static convertDescripton(description): string {
+  public static convertDescripton(description): string {
     switch (description) {
       case 'clear sky': {
         if (this.isDayTime()) {
@@ -130,7 +130,7 @@ export class OpenWeatherConverterService {
     }
   }
 
-  private static isDayTime(): boolean {
+  public static isDayTime(): boolean {
     const hours = new Date().getHours();
     return hours > 6 && hours < 20;
   }

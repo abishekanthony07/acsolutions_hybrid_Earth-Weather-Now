@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {SpeicherService} from '../speicher.service';
 import {AlertController} from '@ionic/angular';
 import {OpenWeatherConverterService} from '../api/open-weather-converter.service';
+import { WeatherDataModel } from '../model/WeatherDataModel';
 
 @Component({
   selector: 'app-home',
@@ -21,14 +22,14 @@ export class HomePage {
   emptyData = 'Bitte geben Sie in die Suche einen Ort oder die PLZ ein, um das Wetter anzuzeigen.';
   emptyDataTitle = 'Suche starten';
 
-  wetterBildSource = '../../assets/wetter/sonne/sonne.png';
+  wetterBildSource : string;
   cityName: string;
   coordsLon: string;
   coordsLat: string;
-  currentTemp: number;
-  feelsLike: number;
-  minTemp: number;
-  maxTemp: number;
+  currentTemp: string;
+  feelsLike: string;
+  minTemp: string;
+  maxTemp: string;
   humidity: number;
   rain: number;
   wind: number;
@@ -37,7 +38,8 @@ export class HomePage {
   timezone: string;
   sunrise: string;
   sunset: string;
-  result: any;
+
+  model: WeatherDataModel;
 
   constructor(private httpClient: HttpClient, private speicherservice: SpeicherService, private alertController: AlertController) {
     this.loadHideInformation();
@@ -52,8 +54,8 @@ export class HomePage {
   }
 
   async saveSearch() {
-    this.speicherservice.saveSearch(this.result);
-    console.log(this.speicherservice.getSearchList())
+    this.speicherservice.saveSearch(this.model.jsonResult);
+  
   }
 
   async success(home: any, jsonResult: any) {
@@ -106,8 +108,29 @@ export class HomePage {
   private showResult(value: boolean, jsonResult: any){
     this.resultExists = value;
     if(jsonResult){
-      OpenWeatherConverterService.convertJsonResult(this, jsonResult);
+      this.model = new WeatherDataModel(jsonResult);
+      this.updateView();
     }
+  }
+
+  private updateView(){
+    this. wetterBildSource = this.model.wetterBildSource;
+            this.cityName = this.model.cityName;
+            this.laenderCode = this.model.laenderCode;
+            this.coordsLon = this.model.coordsLon;
+            this.coordsLat = this.model.coordsLat;
+            this.currentTemp = this.model.currentTemp;
+            this.feelsLike = this.model.feelsLike;
+            this.minTemp = this.model.minTemp;
+            this.maxTemp = this.model.maxTemp;
+            this.humidity = this.model.humidity;
+            this.rain = this.model.rain;
+            this.wind = this.model.wind;
+            this.pressure = this.model.pressure;
+            this.visibility = this.model.visibility;
+            this.timezone = this.model.timezone;
+            this.sunrise = this.model.sunrise;
+            this.sunset = this.model.sunset;
   }
 
 }
