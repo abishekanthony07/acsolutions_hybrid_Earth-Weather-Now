@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="de.earthweathernow.acsolutions" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Earth-Weather-Now</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <description>Get current weather of any location.</description>
+    <author email="abishekanthony07@gmail.com" href="http://instagram.com/abi.sh.ek">Abishek Anthony</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
