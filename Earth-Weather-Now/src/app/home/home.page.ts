@@ -22,7 +22,7 @@ export class HomePage {
   emptyData = 'Bitte geben Sie in die Suche einen Ort oder die PLZ ein, um das Wetter anzuzeigen.';
   emptyDataTitle = 'Suche starten';
 
-  wetterBildSource : string;
+  wetterBildSource: string;
   cityName: string;
   coordsLon: string;
   coordsLat: string;
@@ -54,8 +54,7 @@ export class HomePage {
   }
 
   async saveSearch() {
-    this.speicherservice.saveSearch(this.model.jsonResult);
-  
+    this.addComment();
   }
 
   async success(home: any, jsonResult: any) {
@@ -79,6 +78,35 @@ export class HomePage {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  async addComment(){
+    const alert = await this.alertController.create({
+      header: 'Kommentar hinzufügen',
+      message: 'Zum speichern können Sie einen Kommentar hinzufügen',
+      inputs: [
+        {
+          name: 'kommentar',
+          placeholder: 'angenehmes Wetter'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Abbruch',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'speichern',
+          handler: data => {
+            this.speicherservice.saveSearch(this.model.jsonResult, data.kommentar);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   /**Information functions */
@@ -105,6 +133,7 @@ export class HomePage {
     }
   }
 
+  /**Show result */
   private showResult(value: boolean, jsonResult: any){
     this.resultExists = value;
     if(jsonResult){
@@ -132,5 +161,4 @@ export class HomePage {
             this.sunrise = this.model.sunrise;
             this.sunset = this.model.sunset;
   }
-
 }
