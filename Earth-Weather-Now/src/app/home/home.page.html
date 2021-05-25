@@ -33,38 +33,22 @@
 
   <ion-toolbar *ngIf="resultExists" color="primary">
     <div class="center" >
-      <ion-button (click)="saveSearch()" color='light' >Suche speichern</ion-button>
+      <ion-button (click)="saveSearch()" color='secondary' >Suche speichern</ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" color="primary">
-  <ion-card *ngIf="!resultExists">
-    <ion-item-group>
-      <ion-item-divider>
-        <ion-label color="danger"><b>{{emptyDataTitle}}</b></ion-label>
-      </ion-item-divider>
-
-      <ion-item lines="none">
-        <ion-text>
-          <p>
-            {{emptyData}}
-          </p>
-        </ion-text>
-      </ion-item>
-    </ion-item-group>
-  </ion-card>
-
   <ion-card *ngIf="!closeInformation">
     <ion-item-group>
-      <ion-item-divider>
-        <ion-label color="danger"><b>Informationen</b></ion-label>
-      </ion-item-divider>
-
-      <ion-item lines="none">
+      <ion-item>
+        <ion-icon name="information-circle-outline"></ion-icon>
+        Info
+      </ion-item>
+      <ion-card-content>
         <ion-text>
           <p>
-            Laden Sie <b>aktuelle Wetterdaten für jeden Ort</b> auf der Erde, einschließlich <b>über 200.000 Städten</b>!<br>
+            Laden Sie <b>aktuelle Wetterdaten für jeden Ort</b> auf der Erde, einschließlich <b>über 200.000 Städten</b>!
             Diese <b>Wetterdaten</b> werden <b>aus verschiedenen Quellen durch OpenWeather</b> gesammelt und <b>bereitgestellt</b>.
           </p>
           <p>
@@ -77,12 +61,28 @@
             <b> angezeigt sowie bearbeitet werden</b>.
           </p>
         </ion-text>
-      </ion-item>
+      </ion-card-content>
 
       <ion-item>
         <ion-checkbox slot="start" [(ngModel)]="showHomeInformation"></ion-checkbox>
         <ion-label>Nicht mehr anzeigen</ion-label>
         <ion-button slot="end" color="secondary" (click)="closeButtonPressed()">schließen</ion-button>
+      </ion-item>
+    </ion-item-group>
+  </ion-card>
+
+  <ion-card *ngIf="!resultExists">
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label color="danger"><b>{{emptyDataTitle}}</b></ion-label>
+      </ion-item-divider>
+
+      <ion-item lines="none">
+        <ion-text>
+          <p>
+            {{emptyData}}
+          </p>
+        </ion-text>
       </ion-item>
     </ion-item-group>
   </ion-card>

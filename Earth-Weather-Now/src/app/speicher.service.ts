@@ -1,6 +1,8 @@
 import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
+import { reverse } from 'dns';
+import { WeatherDataModel } from './model/WeatherDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +17,12 @@ export class SpeicherService {
     this.storage.set('showHomeInformation', value);
   }
 
-  saveSearch(jsonResult: any, kommentar: string){
-    const currentdate = new Date().getMilliseconds.toString();
+  saveSearch(model: WeatherDataModel, kommentar: string){
+    const currentdate = String(model.date);
     const result = {
-      result: jsonResult,
-      comment: kommentar
+      result: model.jsonResult,
+      comment: kommentar,
+      currentDate: currentdate
     };
     this.storage.set(currentdate, result);
   }
@@ -28,7 +31,7 @@ export class SpeicherService {
       const items = [];
       return this.storage.forEach((v,k,i) => {
         if(k !== 'showHomeInformation'){
-          items.push(JSON.parse(v));
+          items.push(v);
         }
       }).then(() => items);
   }

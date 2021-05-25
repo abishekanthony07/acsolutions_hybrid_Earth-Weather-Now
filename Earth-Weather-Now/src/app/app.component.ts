@@ -14,6 +14,11 @@ export class AppComponent {
       url: '/folder/Startseite',
       icon: 'sun-outline'
     },
+    {
+      title: 'Wettervorhesage',
+      url: '/folder/gespeicherteVorhersage',
+      icon: 'list'
+    },
   ];
 
   constructor(

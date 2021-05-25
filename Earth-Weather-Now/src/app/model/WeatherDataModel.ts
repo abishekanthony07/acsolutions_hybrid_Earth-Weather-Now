@@ -1,8 +1,8 @@
-import { OpenWeatherConverterService } from "../api/open-weather-converter.service";
+import { OpenWeatherConverterService } from '../api/open-weather-converter.service';
 
 export class WeatherDataModel {
 
-    //Fields 
+    //Fields
     wetterBildSource = '../../assets/wetter/sonne/sonne.png';
     cityName: string;
     laenderCode: string;
@@ -20,9 +20,11 @@ export class WeatherDataModel {
     timezone: string;
     sunrise: string;
     sunset: string;
+    date: number;
+    comment: string;
     jsonResult: any;
-    
-    constructor (
+
+    constructor(
         jsonResult: any
         ){
             this. wetterBildSource = OpenWeatherConverterService.convertDescripton(jsonResult.weather[0].description);
@@ -43,5 +45,14 @@ export class WeatherDataModel {
             this.sunrise = OpenWeatherConverterService.convertDate(jsonResult.sys.sunrise).substring(0, 5);
             this.sunset = OpenWeatherConverterService.convertDate(jsonResult.sys.sunset).substring(0, 5);
             this.jsonResult = jsonResult;
+
+            this.date = new Date().getTime();
+    }
+
+    public static convertSavedJson(json: any): WeatherDataModel{
+        const weather = new WeatherDataModel(json.result);
+        weather.date = json.currentDate;
+        weather.comment = json.comment;
+        return weather;
     }
 }

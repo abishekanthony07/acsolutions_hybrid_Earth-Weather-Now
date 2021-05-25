@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-item lines="none" color="primary">
+      <ion-thumbnail slot="start">
+        <img src="../../assets/icon/icon.png" alt="icon">
+      </ion-thumbnail>
+      <ion-title>Gespeicherte Wettervorhersage</ion-title>
+    </ion-item>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content color="primary">
+  <ion-card>
+    <ion-item>
+      <ion-icon name="information-circle-outline"></ion-icon>
+      Info
+    </ion-item>
+    <ion-card-content>
+      Hier sehen Sie eine Liste mit den gespeicherten Wettervorhersagen.
+      Die entsprechenden Wettervorhersagen sind nach dem aktuellsten Speicherdatum sortiert.
+      Bei der Listenansicht können Sie über das Wischen nach Links die 
+      jeweilige Vorhersage löschen.
+    </ion-card-content>
+  </ion-card>
+    
+  <ion-card>
+      <ion-item-group  *ngIf="listIsEmpty">
+        <ion-item-divider>
+          <ion-label color="danger"><b>Nichts gefunden!</b></ion-label>
+        </ion-item-divider>
+  
+        <ion-item lines="none">
+          <ion-text>
+            <p>
+              Sie haben keine Wettervorhersagen gespeichert.
+            </p>
+          </ion-text>
+        </ion-item>
+      </ion-item-group>
+     
+      <ion-list *ngIf="!listIsEmpty">
+        <ion-card *ngFor="let weather of weatherlist">
+          <ion-item-sliding #slidingItem color="tertiary">
+            <ion-item lines="none" (click)="onClicked(kategorie)" color="secondary">
+              <ion-thumbnail slot="start">
+                <img src={{weather.wetterBildSource}} alt="icon">
+              </ion-thumbnail>
+              <ion-label>{{weather.date | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-label>
+              <ion-label>{{weather.cityName}}</ion-label>
+            </ion-item>
+            <ion-item-options slide="end">
+              <ion-item-option color="danger" (click)="onLoeschen(weather, slidingItem)">
+                Löschen
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-card>
+      </ion-list>
+    
+    </ion-card>
+</ion-content>

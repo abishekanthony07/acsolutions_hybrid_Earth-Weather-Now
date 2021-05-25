@@ -101,7 +101,7 @@ export class HomePage {
         {
           text: 'speichern',
           handler: data => {
-            this.speicherservice.saveSearch(this.model.jsonResult, data.kommentar);
+            this.speicherservice.saveSearch(this.model, data.kommentar);
           }
         }
       ]
