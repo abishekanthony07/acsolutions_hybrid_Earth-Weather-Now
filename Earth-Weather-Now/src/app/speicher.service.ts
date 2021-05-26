@@ -36,6 +36,10 @@ export class SpeicherService {
       }).then(() => items);
   }
 
+  deleteSearchItem(keyDate: string){
+    this.storage.remove(keyDate);
+  }
+
   getHideInformation(): Promise<boolean> {
     return this.storage.get('showHomeInformation');
   }

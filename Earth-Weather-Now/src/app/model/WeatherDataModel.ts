@@ -27,7 +27,8 @@ export class WeatherDataModel {
     constructor(
         jsonResult: any
         ){
-            this. wetterBildSource = OpenWeatherConverterService.convertDescripton(jsonResult.weather[0].description);
+            this.date = new Date().getTime();
+            this. wetterBildSource = OpenWeatherConverterService.convertDescripton(jsonResult.weather[0].description, this.date);
             this.cityName = jsonResult.name;
             this.laenderCode = jsonResult.sys.country;
             this.coordsLon = jsonResult.coord.lon;
@@ -45,8 +46,6 @@ export class WeatherDataModel {
             this.sunrise = OpenWeatherConverterService.convertDate(jsonResult.sys.sunrise).substring(0, 5);
             this.sunset = OpenWeatherConverterService.convertDate(jsonResult.sys.sunset).substring(0, 5);
             this.jsonResult = jsonResult;
-
-            this.date = new Date().getTime();
     }
 
     public static convertSavedJson(json: any): WeatherDataModel{

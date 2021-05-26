@@ -83,7 +83,7 @@ export class HomePage {
   async addComment(){
     const alert = await this.alertController.create({
       header: 'Kommentar hinzufügen',
-      message: 'Zum speichern können Sie einen Kommentar hinzufügen',
+      message: 'Zum Speichern können Sie einen Kommentar hinzufügen',
       inputs: [
         {
           name: 'kommentar',
@@ -92,11 +92,8 @@ export class HomePage {
       ],
       buttons: [
         {
-          text: 'Abbruch',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          text: 'abbruch',
+          role: 'cancel'
         },
         {
           text: 'speichern',

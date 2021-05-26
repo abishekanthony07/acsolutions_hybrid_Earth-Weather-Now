@@ -1,7 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonItemSliding } from '@ionic/angular';
-import { reverse } from 'dns';
-import { $ } from 'protractor';
 import { WeatherDataModel } from '../model/WeatherDataModel';
 import { SpeicherService } from '../speicher.service';
 
@@ -15,13 +14,14 @@ export class SaveListPage implements OnInit {
   private currentWeather: WeatherDataModel;
   private listIsEmpty = true;
 
-  constructor(private speicherService: SpeicherService,private alertController: AlertController){
+  constructor(private speicherService: SpeicherService,private alertController: AlertController, private datepipe: DatePipe){
   }
   ngOnInit(): void {
   }
 
   async getList(){
     const list =  await this.speicherService.getSearchList();
+    this.listIsEmpty = true;
     this. weatherlist = [];
     list.forEach((listItem: any) => {
       this.listIsEmpty = false;
@@ -35,13 +35,17 @@ export class SaveListPage implements OnInit {
     this.getList();
   }
 
+  async onClicked(weather: WeatherDataModel){
+    //TODO
+  }
+
   async onLoeschen(weather: WeatherDataModel, slider: IonItemSliding){
     await this.deleteAlert(weather, slider);
   }
 
   private async deleteAlert(currentWeather: WeatherDataModel, slider: IonItemSliding){
-    const sicherheitsabfrage = `Möchten Sie die Wettervorhersage vom "${currentWeather.date}" 
-    von "${this.currentWeather.cityName}" löschen?`;
+    const sicherheitsabfrage = `Möchten Sie die Wettervorhersage vom "${this.convertDate(currentWeather.date)} Uhr" 
+    von "${currentWeather.cityName}" löschen?`;
     const deleteAlert = await this.alertController.create({
       header: '',
       message: sicherheitsabfrage,
@@ -55,11 +59,16 @@ export class SaveListPage implements OnInit {
       }, {
         text: 'Ja',
         handler: async () => {
-          //await this.speicherservice.deleteKategorie(kategorie);
+          this.speicherService.deleteSearchItem(String(currentWeather.date));
           this.getList();
         }
       }]
     });
     await deleteAlert.present();
+  }
+
+  private convertDate(datenumber: number): string{
+    const date = new Date().setTime(datenumber);
+    return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');
   }
 }

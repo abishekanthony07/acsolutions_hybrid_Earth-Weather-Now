@@ -8,27 +8,6 @@ export class OpenWeatherConverterService {
   constructor() {
   }
 
-  public static convertJsonResult(home: any, jsonResult: any) {
-    console.log(jsonResult);
-    home.wetterBildSource = this.convertDescripton(jsonResult.weather[0].description);
-    home.cityName = jsonResult.name;
-    home.laenderCode = jsonResult.sys.country;
-    home.coordsLon = jsonResult.coord.lon;
-    home.coordsLat = jsonResult.coord.lat;
-    home.currentTemp = this.convertTemp(jsonResult.main.temp);
-    home.feelsLike = this.convertTemp(jsonResult.main.feels_like);
-    home.minTemp = this.convertTemp(jsonResult.main.temp_min);
-    home.maxTemp = this.convertTemp(jsonResult.main.temp_max);
-    home.humidity = jsonResult.main.humidity;
-    home.rain = this.checkValueExists(jsonResult.rain, {'1h': 0.00})['1h'] * 100;
-    home.wind = this.checkValueExists(jsonResult.wind, {speed: '---'}).speed;
-    home.pressure = jsonResult.main.pressure;
-    home.visibility = jsonResult.visibility / 1000;
-    home.timezone = this.convertDate(jsonResult.timezone / 1000).substring(0, 2);
-    home.sunrise = this.convertDate(jsonResult.sys.sunrise).substring(0, 5);
-    home.sunset = this.convertDate(jsonResult.sys.sunset).substring(0, 5);
-  }
-
   public static checkValueExists(value: any, defaultValue: any): any {
     if (value) {
       return value;
@@ -47,10 +26,10 @@ export class OpenWeatherConverterService {
     });
   }
 
-  public static convertDescripton(description): string {
+  public static convertDescripton(description: any, date: number): string {
     switch (description) {
       case 'clear sky': {
-        if (this.isDayTime()) {
+        if (this.isDayTime(date)) {
           return '../../assets/wetter/sonne/sonne.png';
         } else {
           return '../../assets/wetter/nacht/mond.png';
@@ -60,7 +39,7 @@ export class OpenWeatherConverterService {
       case 'scattered clouds':
       case 'broken clouds':
       case 'overcast clouds': {
-        if (this.isDayTime()) {
+        if (this.isDayTime(date)) {
           return '../../assets/wetter/wolken/sonnenwolken.png';
         } else {
           return '../../assets/wetter/wolken/mondwolken.png';
@@ -130,8 +109,8 @@ export class OpenWeatherConverterService {
     }
   }
 
-  public static isDayTime(): boolean {
-    const hours = new Date().getHours();
+  public static isDayTime(date: number): boolean {
+    const hours = new Date(date).getHours();
     return hours > 6 && hours < 20;
   }
 }
