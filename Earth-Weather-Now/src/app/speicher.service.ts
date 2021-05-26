@@ -20,11 +20,12 @@ export class SpeicherService {
   }
 
 
-  saveSearch(model: WeatherDataModel, kommentar: string){
+  saveSearch(model: WeatherDataModel, kommentar: string, sucheingabe: any){
     const currentdate = String(model.date);
     const result = {
       result: model.jsonResult,
       comment: kommentar,
+      search: sucheingabe,
       currentDate: currentdate
     };
     this.storage.set(currentdate, result);

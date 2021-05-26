@@ -102,7 +102,12 @@ export class HomePage {
         {
           text: 'speichern',
           handler: data => {
-            this.speicherservice.saveSearch(this.model, data.kommentar);
+            const search = {
+              sucheingabe: this.city,
+              state: this.stateCode,
+              land: this.laenderCode
+            };
+            this.speicherservice.saveSearch(this.model, data.kommentar, search);
           }
         }
       ]
