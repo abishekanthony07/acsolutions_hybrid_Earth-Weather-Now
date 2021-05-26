@@ -14,17 +14,24 @@
 </ion-header>
 
 <ion-content color="primary">
-  <ion-card>
+  <ion-card *ngIf="!closeInformation">
     <ion-item>
       <ion-icon name="information-circle-outline"></ion-icon>
       Info
     </ion-item>
+
     <ion-card-content>
       Hier sehen Sie eine Liste mit den gespeicherten Wettervorhersagen.
       Die entsprechenden Wettervorhersagen sind nach dem aktuellsten Speicherdatum sortiert.
       Bei der Listenansicht können Sie über das Wischen nach Links die 
       jeweilige Vorhersage löschen.
     </ion-card-content>
+
+    <ion-item>
+      <ion-checkbox slot="start" [(ngModel)]="showSavePageInformation"></ion-checkbox>
+      <ion-label>Nicht mehr anzeigen</ion-label>
+      <ion-button slot="end" color="secondary" (click)="closeButtonPressed()">schließen</ion-button>
+    </ion-item>
   </ion-card>
     
   <ion-card>

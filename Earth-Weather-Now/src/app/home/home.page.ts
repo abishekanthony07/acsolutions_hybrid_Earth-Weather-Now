@@ -22,6 +22,9 @@ export class HomePage {
   emptyData = 'Bitte geben Sie in die Suche einen Ort oder die PLZ ein, um das Wetter anzuzeigen.';
   emptyDataTitle = 'Suche starten';
 
+  //Model mit Oberflächen-Referenzen
+  model: WeatherDataModel;
+
   wetterBildSource: string;
   cityName: string;
   coordsLon: string;
@@ -39,9 +42,10 @@ export class HomePage {
   sunrise: string;
   sunset: string;
 
-  model: WeatherDataModel;
-
   constructor(private httpClient: HttpClient, private speicherservice: SpeicherService, private alertController: AlertController) {
+  }
+
+  ionViewWillEnter(){
     this.loadHideInformation();
   }
 

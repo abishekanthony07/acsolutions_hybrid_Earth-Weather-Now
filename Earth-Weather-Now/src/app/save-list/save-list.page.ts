@@ -13,11 +13,27 @@ export class SaveListPage implements OnInit {
   private weatherlist: WeatherDataModel[];
   private currentWeather: WeatherDataModel;
   private listIsEmpty = true;
+  private showSavePageInformation = true;
+  private closeInformation = false;
 
   constructor(private speicherService: SpeicherService,private alertController: AlertController, private datepipe: DatePipe){
   }
+  
   ngOnInit(): void {
   }
+
+   /**Information functions */
+   async loadHideInformation() {
+    this.showSavePageInformation = await this.speicherService.getHideSavePageInformation();
+    this.closeInformation = this.showSavePageInformation;
+  }
+
+  async closeButtonPressed() {
+    this.closeInformation = true;
+    this.speicherService.setHideSavePageInformation(this.showSavePageInformation);
+  }
+
+  /** Daten von der Datenbank laden */
 
   async getList(){
     const list =  await this.speicherService.getSearchList();
@@ -28,17 +44,20 @@ export class SaveListPage implements OnInit {
       this.weatherlist.push(WeatherDataModel.convertSavedJson(listItem));
     });
     this.weatherlist.reverse();
-    console.log(this.weatherlist);
   }
 
   ionViewWillEnter(){
+    this.loadHideInformation();
     this.getList();
   }
 
+  /** Navigation zu Detailansicht */
   async onClicked(weather: WeatherDataModel){
     //TODO
   }
 
+
+  /** Löschen der Daten */
   async onLoeschen(weather: WeatherDataModel, slider: IonItemSliding){
     await this.deleteAlert(weather, slider);
   }

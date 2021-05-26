@@ -1,7 +1,5 @@
-import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-import { reverse } from 'dns';
 import { WeatherDataModel } from './model/WeatherDataModel';
 
 @Injectable({
@@ -17,6 +15,11 @@ export class SpeicherService {
     this.storage.set('showHomeInformation', value);
   }
 
+  setHideSavePageInformation(value: boolean){
+    this.storage.set('showSavePageInformation', value);
+  }
+
+
   saveSearch(model: WeatherDataModel, kommentar: string){
     const currentdate = String(model.date);
     const result = {
@@ -30,7 +33,7 @@ export class SpeicherService {
   getSearchList(): any{
       const items = [];
       return this.storage.forEach((v,k,i) => {
-        if(k !== 'showHomeInformation'){
+        if(this.getBoolForOnlySavedList(k)){
           items.push(v);
         }
       }).then(() => items);
@@ -42,5 +45,13 @@ export class SpeicherService {
 
   getHideInformation(): Promise<boolean> {
     return this.storage.get('showHomeInformation');
+  }
+
+  getHideSavePageInformation(): Promise<boolean> {
+    return this.storage.get('showSavePageInformation');
+  }
+
+  private getBoolForOnlySavedList(storagekey: string): boolean {
+    return storagekey !== 'showHomeInformation' && storagekey !== 'showSavePageInformation';
   }
 }
