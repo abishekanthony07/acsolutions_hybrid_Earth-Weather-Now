@@ -26,7 +26,7 @@
     <ion-item-group>
       <ion-item lines="none" color="light">
         <ion-icon name="filter-circle-outline" slot="start"></ion-icon>
-        Über den Button kann die Richtung der Sortierung geändert werden.
+        Dieser Button ändert die Richtung der Sortierung (auf- oder absteigend).
       </ion-item>
       <ion-item lines="none" color="light">
         <ion-icon name="trash-outline" slot="start"></ion-icon> 
@@ -68,7 +68,12 @@
               <ion-thumbnail slot="start">
                 <img src={{weather.wetterBildSource}} alt="icon">
               </ion-thumbnail>
-              <ion-text>{{weather.date | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-text>
+              <ion-text>
+                {{weather.date | date: 'dd.MM.yyyy' }}
+                <br>
+                {{weather.date | date: 'HH:mm' }} Uhr
+              </ion-text>
+              <ion-text>&nbsp;&nbsp;</ion-text>
               <ion-text>{{weather.cityName}}, {{weather.laenderCode}}</ion-text>
             </ion-item>
             <ion-item-options slide="end">
@@ -79,6 +84,5 @@
           </ion-item-sliding>
         </ion-card>
       </ion-list>
-    
     </ion-card>
 </ion-content>
