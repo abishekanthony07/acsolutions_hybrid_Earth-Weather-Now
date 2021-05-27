@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-item lines="none" color="primary">
+      <ion-thumbnail slot="start">
+        <img src="../../assets/icon/icon.png" alt="icon">
+      </ion-thumbnail>
+      <ion-text>Hilfe</ion-text>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="primary">
+  <ion-card>
+    <ion-card-content>
+      <ion-text>
+        <h2><b>Über die App</b></h2>
+        <p>
+          Laden Sie <b>aktuelle Wetterdaten für jeden Ort</b> auf der Erde, einschließlich <b>über 200.000 Städten</b>!
+          Diese <b>Wetterdaten</b> werden <b>aus verschiedenen Quellen durch OpenWeather</b> gesammelt und <b>bereitgestellt</b>.
+        </p>
+        <p>
+          Dabei kann die <b>Postleitzahl</b> oder der <b>Name des Ortes</b> in der Suche eingegeben werden. 
+          Hinweis: <b>Es kann</b> hierbei <b>zu ungenauen Angaben</b> des Wetters <b>kommen, wenn der gesuchte Ort nicht gefunden werden kann</b>
+          und alternativ das Wetter einer naheliegenden Stadt angezeigt wird.
+        </p>
+        <p>
+          <b>Ergänzend</b> zu der einfachen Suche anhand der PLZ / Name des Ortes, <b>können der StateCode und der Ländercode angegeben werden</b>.
+          Wichtig ist, dass der <b>StateCode</b> durch die OpenWeather-API <b>nur im Land USA unterstützt</b> wird.
+          <br>
+          <br>Eine <b>mögliche Suche</b> könnte lauten:
+          <li>Ort: "Bern"</li>
+          <li>optional Statecode: " "</li>
+          <li>optional Laendercode: "CH"</li>
+        </p>
+        <br>
+        <p>
+          In dieser App wird <b>durch das Speichern der Wettervorhersagen nur die angezeigten Informationen</b> auf Ihrem Smartphone <b>gesichert</b>. 
+          Hierbei handelt es sich um:
+          <li>Datum und Uhrzeit der Suche</li>
+          <li>Ihre Sucheingaben</li>
+          <li>Ihr Kommentar beim Speichern</li>
+          <li>Die Wettervorhersage</li>
+        </p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-content>
+      <h2><b>OpenWeather - API</b></h2>
+      <ion-text>
+        <p>
+          Die <b><a href="https://openweathermap.org/current">OpenWeather - API</a> </b> sorgt dafür, dass die <b> Wettervorhersage</b> des gesuchten (naheliegenden) 
+        Ortes aus verschiedenen Quellen dieser App <b>bereitgestellt werden</b>.  
+        <br>Näheres über die API kann auf deren Webseite nachgelesen werden.
+        </p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <h2><b>Sonstiges</b></h2>
+      <ion-text>
+        <p>
+          Diese Anwendung wurde im Rahmen des DHBW-Wirtschaftsinformatik-Studiums in Karlsruhe von Abishek Anthony entwickelt.
+        </p>
+        <p>
+          Verwendete Technologien:
+          <li>Cordova Angular</li>
+          <li>Ionic Storage</li>
+          <li><a href="https://openweathermap.org/current">OpenWeather - API</a></li>
+        </p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

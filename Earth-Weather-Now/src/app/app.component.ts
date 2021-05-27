@@ -19,6 +19,11 @@ export class AppComponent {
       url: '/folder/gespeicherteVorhersage',
       icon: 'list'
     },
+    {
+      title: 'Hilfe',
+      url: '/folder/hilfe',
+      icon: 'help-circle-outline'
+    },
   ];
 
   constructor(
