@@ -7,8 +7,9 @@ import { WeatherDataModel } from './model/WeatherDataModel';
 })
 export class SpeicherService {
 
-  constructor(private storage: Storage) {
+  public static currentSelectedWeather: WeatherDataModel;
 
+  constructor(private storage: Storage) {
   }
 
   setHideInformation(value: boolean){

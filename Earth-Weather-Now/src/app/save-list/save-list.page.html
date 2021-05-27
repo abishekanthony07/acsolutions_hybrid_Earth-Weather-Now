@@ -23,10 +23,22 @@
     <ion-card-content>
       Hier sehen Sie eine Liste mit den gespeicherten Wettervorhersagen.
       Die entsprechenden Wettervorhersagen sind nach dem aktuellsten Speicherdatum sortiert.
-      Bei der Listenansicht können Sie über das Wischen nach Links die 
-      jeweilige Vorhersage löschen.
     </ion-card-content>
-
+    <ion-item-group>
+      <ion-item lines="none" color="light">
+        <ion-icon name="filter-circle-outline" slot="start"></ion-icon>
+        Über den Button kann die Richtung der Sortierung geändert werden.
+      </ion-item>
+      <ion-item lines="none" color="light">
+        <ion-icon name="trash-outline" slot="start"></ion-icon> 
+        Dieser Button löscht die komplette Liste.
+      </ion-item>
+      <ion-item lines="none" color="light">
+        <ion-icon name="arrow-back-circle-outline" slot="start"></ion-icon>
+        Über das Wischen nach Links auf einem Listenelement wird die 
+        jeweilige Vorhersage gelöscht. 
+      </ion-item>
+    </ion-item-group>
     <ion-item>
       <ion-checkbox slot="start" [(ngModel)]="showSavePageInformation"></ion-checkbox>
       <ion-label>Nicht mehr anzeigen</ion-label>
@@ -50,6 +62,7 @@
       </ion-item-group>
      
       <ion-list *ngIf="!listIsEmpty">
+        <ion-item><ion-icon name="filter-circle-outline" slot="end" (click)="sortList()"></ion-icon><ion-icon name="trash-outline" slot="end" (click)="deleteAll()"></ion-icon></ion-item>
         <ion-card *ngFor="let weather of weatherlist">
           <ion-item-sliding #slidingItem color="tertiary">
             <ion-item lines="none" (click)="onClicked(kategorie)" color="secondary">
@@ -57,7 +70,7 @@
                 <img src={{weather.wetterBildSource}} alt="icon">
               </ion-thumbnail>
               <ion-label>{{weather.date | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-label>
-              <ion-label>{{weather.cityName}}</ion-label>
+              <ion-label>{{weather.cityName}}, {{weather.laenderCode}}</ion-label>
             </ion-item>
             <ion-item-options slide="end">
               <ion-item-option color="danger" (click)="onLoeschen(weather, slidingItem)">

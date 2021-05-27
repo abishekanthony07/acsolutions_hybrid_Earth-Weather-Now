@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'save-list',
     loadChildren: () => import('./save-list/save-list.module').then( m => m.SaveListPageModule)
   },
+  {
+    path: 'detailview',
+    loadChildren: () => import('./detailview/detailview.module').then( m => m.DetailviewPageModule)
+  },
 ];
 
 @NgModule({

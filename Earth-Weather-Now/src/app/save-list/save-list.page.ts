@@ -18,7 +18,7 @@ export class SaveListPage implements OnInit {
 
   constructor(private speicherService: SpeicherService,private alertController: AlertController, private datepipe: DatePipe){
   }
-  
+
   ngOnInit(): void {
   }
 
@@ -51,8 +51,36 @@ export class SaveListPage implements OnInit {
     this.getList();
   }
 
+  /**Funktionen der kompletten Liste */
+  async deleteAll(){
+    const sicherheitsabfrage = 'Möchten Sie alle Wettervorhersagen löschen?';
+    const deleteAlert = await this.alertController.create({
+      header: '',
+      message: sicherheitsabfrage,
+      backdropDismiss: false,
+      buttons: [{
+        text: 'Abbrechen',
+        role: 'Cancel'
+      }, {
+        text: 'Ja',
+        handler: async () => {
+          this.weatherlist.forEach(currentWeather =>{
+            this.speicherService.deleteSearchItem(String(currentWeather.date));
+          });
+          this.getList();
+        }
+      }]
+    });
+    await deleteAlert.present();
+  }
+
+  async sortList(){
+    this.weatherlist.reverse();
+  }
+
   /** Navigation zu Detailansicht */
   async onClicked(weather: WeatherDataModel){
+    SpeicherService.currentSelectedWeather = weather;
     //TODO
   }
 
