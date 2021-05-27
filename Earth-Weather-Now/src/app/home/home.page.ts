@@ -25,6 +25,7 @@ export class HomePage {
   //Model mit Oberflächen-Referenzen
   model: WeatherDataModel;
 
+  currentDate: number;
   wetterBildSource: string;
   cityName: string;
   coordsLon: string;
@@ -103,7 +104,7 @@ export class HomePage {
           text: 'speichern',
           handler: data => {
             const search = {
-              sucheingabe: this.city,
+              city: this.city,
               state: this.stateCode,
               land: this.laenderCode
             };
@@ -149,6 +150,7 @@ export class HomePage {
   }
 
   private updateView(){
+    this.currentDate = this.model.date;
     this. wetterBildSource = this.model.wetterBildSource;
             this.cityName = this.model.cityName;
             this.laenderCode = this.model.laenderCode;

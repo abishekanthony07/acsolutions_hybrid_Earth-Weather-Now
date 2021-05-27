@@ -52,6 +52,7 @@ export class WeatherDataModel {
         const weather = new WeatherDataModel(json.result);
         weather.date = json.currentDate;
         weather.comment = json.comment;
+        weather.jsonResult = json;
         return weather;
     }
 }

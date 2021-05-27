@@ -7,10 +7,9 @@
       <ion-thumbnail slot="start">
         <img src="../../assets/icon/icon.png" alt="icon">
       </ion-thumbnail>
-      <ion-title>Gespeicherte Wettervorhersage</ion-title>
+      <ion-text>Gespeicherte Wettervorhersage</ion-text>
     </ion-item>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content color="primary">
@@ -65,12 +64,12 @@
         <ion-item><ion-icon name="filter-circle-outline" slot="end" (click)="sortList()"></ion-icon><ion-icon name="trash-outline" slot="end" (click)="deleteAll()"></ion-icon></ion-item>
         <ion-card *ngFor="let weather of weatherlist">
           <ion-item-sliding #slidingItem color="tertiary">
-            <ion-item lines="none" (click)="onClicked(kategorie)" color="secondary">
+            <ion-item lines="none" (click)="onClicked(weather)" color="secondary">
               <ion-thumbnail slot="start">
                 <img src={{weather.wetterBildSource}} alt="icon">
               </ion-thumbnail>
-              <ion-label>{{weather.date | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-label>
-              <ion-label>{{weather.cityName}}, {{weather.laenderCode}}</ion-label>
+              <ion-text>{{weather.date | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-text>
+              <ion-text>{{weather.cityName}}, {{weather.laenderCode}}</ion-text>
             </ion-item>
             <ion-item-options slide="end">
               <ion-item-option color="danger" (click)="onLoeschen(weather, slidingItem)">

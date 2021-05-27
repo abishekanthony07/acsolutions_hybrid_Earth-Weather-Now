@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, IonItemSliding } from '@ionic/angular';
 import { WeatherDataModel } from '../model/WeatherDataModel';
 import { SpeicherService } from '../speicher.service';
@@ -16,7 +17,10 @@ export class SaveListPage implements OnInit {
   private showSavePageInformation = true;
   private closeInformation = false;
 
-  constructor(private speicherService: SpeicherService,private alertController: AlertController, private datepipe: DatePipe){
+  constructor(private speicherService: SpeicherService,
+    private alertController: AlertController,
+    private datepipe: DatePipe,
+    private route: Router){
   }
 
   ngOnInit(): void {
@@ -80,12 +84,12 @@ export class SaveListPage implements OnInit {
 
   /** Navigation zu Detailansicht */
   async onClicked(weather: WeatherDataModel){
-    SpeicherService.currentSelectedWeather = weather;
-    //TODO
+    this.speicherService.setCurrentSelectedWeather(weather);
+    this.route.navigate(['detailview']);
   }
 
 
-  /** Löschen der Daten */
+  /** Löschen einzelner Daten */
   async onLoeschen(weather: WeatherDataModel, slider: IonItemSliding){
     await this.deleteAlert(weather, slider);
   }

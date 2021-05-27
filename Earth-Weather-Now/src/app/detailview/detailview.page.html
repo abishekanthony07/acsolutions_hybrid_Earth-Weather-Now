@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-item lines="none" color="primary">
+      <ion-thumbnail slot="start">
+        <img src="../../assets/icon/icon.png" alt="icon">
+      </ion-thumbnail>
+      <ion-text>Wettervorhersage von {{cityName}}, {{laenderCode}}</ion-text>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="primary">
+  <ion-card *ngIf="!closeInformation">
+      <ion-item>
+        <ion-icon name="information-circle-outline"></ion-icon>
+        Allgemeine Informationen
+      </ion-item>
+      <ion-card-content>
+        <ion-item-group>
+          <ion-text>Folgendes hatten Sie gesucht:</ion-text>
+          <ion-item lines="none" color="light">
+            <ion-icon name="search-circle-outline" slot="start"></ion-icon>
+            {{sucheingabe}}
+          </ion-item>
+          optionale Eingaben: 
+          <ion-item lines="none" color="light">
+            <ion-icon name="flag-outline" slot="start"></ion-icon>
+            Statecode: {{statecode}}
+          </ion-item>
+          <ion-item lines="none" color="light">
+            <ion-icon name="earth-outline" slot="start"></ion-icon>
+            Landcode: {{land}}
+          </ion-item>
+        </ion-item-group>
+        <br>
+        <ion-item-group>
+          <ion-text>Folgendes hatten Sie kommentiert:</ion-text>
+          <ion-item lines="none" color="light">
+            <ion-icon name="pricetag-outline"slot="start"></ion-icon>
+            {{kommentar}}
+          </ion-item>
+        </ion-item-group>
+      </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-item-group>
+      <!-- Beschreibung des Ortes -->
+      <ion-item-divider>
+        <ion-text class="center" color="dark">{{currentDate | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-text>
+      </ion-item-divider>
+      <ion-item-divider>
+        <ion-text class="center" color="primary"><b>{{cityName}}, {{laenderCode}}</b></ion-text>
+      </ion-item-divider>
+      <ion-item lines="none">
+        <ion-text class="center"><b>Längengrad:</b> {{coordsLat}}</ion-text>
+        <ion-text class="center"><b>Breitengrad:</b> {{coordsLon}}</ion-text>
+      </ion-item>
+
+      <!-- Temperatur eines Ortes mit Wetter-->
+      <ion-item lines="none">
+        <ion-text class="center"><img [src]="wetterBildSource" alt="weatherImg"></ion-text>
+      </ion-item>
+      <ion-item-divider>
+        <ion-text class="center large-size">{{currentTemp}}°C</ion-text>
+      </ion-item-divider>
+      <ion-item lines="none">
+        <ion-text class="center"><b>gefühlt:</b> {{feelsLike}}°C</ion-text>
+      </ion-item>
+      <ion-grid>
+        <!-- Details zur Temperatur -->
+        <ion-row>
+          <ion-col class="center">
+            <ion-text><b>T:</b> {{minTemp}}°C</ion-text>
+          </ion-col>
+          <ion-col class="center">
+            <ion-text><b>H:</b> {{maxTemp}}°C</ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="center">
+            <ion-text><b>Feuchtigkeit:</b> {{humidity}}%</ion-text>
+          </ion-col>
+          <ion-col class="center">
+            <ion-text><b>Regen:</b> {{rain}}%</ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="center">
+            <ion-text><b>Wind:</b> {{wind}}m/s</ion-text>
+          </ion-col>
+          <ion-col class="center">
+            <ion-text><b>Luftdruck:</b> {{pressure}}hPa</ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="center">
+            <ion-text><b>Sichtweite:</b> {{visibility}}km</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-item-divider>
+        <ion-label class="center">UTC+{{timezone}}h</ion-label>
+      </ion-item-divider>
+      <!-- Sonnen-auf- oder unter-gang eines Ortes -->
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-thumbnail>
+              <img src="../../assets/wetter/sonne/sonnenaufgang.png" alt="sunrise">
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col>
+            <div>{{sunrise}}Uhr</div>
+          </ion-col>
+
+          <ion-col>
+            <ion-thumbnail>
+              <img src="../../assets/wetter/sonne/sonnenuntergang.png" alt="sunset">
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col>
+            <div>{{sunset}}Uhr</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <ion-item>
+        <ion-button (click)="deleteSearch()" color='danger' slot="end">Vorhersage löschen</ion-button>
+      </ion-item>
+    </ion-item-group>
+</ion-card>
+</ion-content>

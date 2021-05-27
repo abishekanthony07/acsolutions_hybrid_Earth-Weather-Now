@@ -7,10 +7,12 @@ import { WeatherDataModel } from './model/WeatherDataModel';
 })
 export class SpeicherService {
 
-  public static currentSelectedWeather: WeatherDataModel;
-
   constructor(private storage: Storage) {
   }
+
+  setCurrentSelectedWeather(weather: WeatherDataModel){
+    this.storage.set('currentSelectedWeather', weather.jsonResult);
+  };
 
   setHideInformation(value: boolean){
     this.storage.set('showHomeInformation', value);
@@ -45,6 +47,11 @@ export class SpeicherService {
     this.storage.remove(keyDate);
   }
 
+  async getCurrentSelectedWeather(): Promise<WeatherDataModel>{
+    const json  = await this.storage.get('currentSelectedWeather');
+    return WeatherDataModel.convertSavedJson(json);
+  };
+
   getHideInformation(): Promise<boolean> {
     return this.storage.get('showHomeInformation');
   }
@@ -54,6 +61,6 @@ export class SpeicherService {
   }
 
   private getBoolForOnlySavedList(storagekey: string): boolean {
-    return storagekey !== 'showHomeInformation' && storagekey !== 'showSavePageInformation';
+    return storagekey !== 'showHomeInformation' && storagekey !== 'showSavePageInformation' && storagekey !== 'currentSelectedWeather';
   }
 }

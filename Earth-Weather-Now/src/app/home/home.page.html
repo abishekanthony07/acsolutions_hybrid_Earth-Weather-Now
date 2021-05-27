@@ -1,18 +1,21 @@
 <ion-header [translucent]="true" color="primary">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" color="primary">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-item lines="none" color="primary">
       <ion-thumbnail slot="start">
         <img src="../../assets/icon/icon.png" alt="icon">
       </ion-thumbnail>
-      <ion-title>Wetterdaten eines Ortes abrufen</ion-title>
+      <ion-text>Wetterdaten eines Ortes abrufen</ion-text>
     </ion-item>
   </ion-toolbar>
 
   <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="city" enterkeyhint="enter" placeholder="Ort oder PLZ" autocomplete="postal-code" mode="ios"></ion-searchbar>
+    <ion-item lines="none" color="primary">
+      <ion-searchbar [(ngModel)]="city" enterkeyhint="enter" placeholder="Ort oder PLZ" autocomplete="postal-code"></ion-searchbar>
+    </ion-item>
+
     <ion-buttons slot="primary">
       <ion-button color="light" (click)="search()">
         <ion-icon name="search-circle-outline"></ion-icon>
@@ -20,21 +23,18 @@
       <ion-button color="light" (click)="onErweitert()">
        erweitert
       </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    </ion-buttons>  </ion-toolbar>
 
   <ion-toolbar color="tertiary" *ngIf="erweiterteSuche">
-    <ion-item lines="none" color="primary">
+    <ion-item lines="none" color="light">
+      <ion-icon name="flag-outline" slot="start"></ion-icon>
       <ion-input [(ngModel)]="stateCode" placeholder="optional: Statecode" autocomplete="country-code"></ion-input>
-      <ion-input [(ngModel)]="laenderCode" placeholder="optional: Ländercode" maxlength="2" minlength="2"
-                 value="string"></ion-input>
     </ion-item>
-  </ion-toolbar>
-
-  <ion-toolbar *ngIf="resultExists" color="primary">
-    <div class="center" >
-      <ion-button (click)="saveSearch()" color='secondary' >Suchergebnis speichern</ion-button>
-    </div>
+    <ion-item lines="none" color="light">
+      <ion-icon name="earth-outline" slot="start"></ion-icon>
+      <ion-input [(ngModel)]="laenderCode" placeholder="optional: Ländercode" maxlength="2" minlength="2" 
+      value="string"></ion-input>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -58,7 +58,7 @@
             von dieser App <b>gespeichert
             werden und kann</b> über das
             <ion-icon name="menu-outline"></ion-icon>
-            <b> angezeigt sowie bearbeitet werden</b>.
+            unter dem Menüpunkt 'Gespeicherte Vorhersagen' <b>angezeigt sowie bearbeitet werden</b>.
           </p>
         </ion-text>
       </ion-card-content>
@@ -88,88 +88,95 @@
   </ion-card>
 
   <ion-card *ngIf="resultExists">
-    <ion-item-group>
-      <!-- Beschreibung des Ortes -->
-      <ion-item-divider>
-        <ion-label class="center" color="primary"><b>{{cityName}}, {{laenderCode}}</b></ion-label>
-      </ion-item-divider>
-      <ion-item lines="none">
-        <ion-text class="center"><b>Längengrad:</b> {{coordsLat}}</ion-text>
-        <ion-text class="center"><b>Breitengrad:</b> {{coordsLon}}</ion-text>
-      </ion-item>
-
-
-      <!-- Temperatur eines Ortes mit Wetter-->
-      <ion-item lines="none">
-        <ion-text class="center"><img [src]="wetterBildSource" alt="weatherImg"></ion-text>
-      </ion-item>
-      <ion-item-divider>
-        <ion-text class="center large-size">{{currentTemp}}°C</ion-text>
-      </ion-item-divider>
-      <ion-item lines="none">
-        <ion-text class="center"><b>gefühlt:</b> {{feelsLike}}°C</ion-text>
-      </ion-item>
-      <ion-grid>
-        <!-- Details zur Temperatur -->
-        <ion-row>
-          <ion-col class="center">
-            <ion-text><b>T:</b> {{minTemp}}°C</ion-text>
-          </ion-col>
-          <ion-col class="center">
-            <ion-text><b>H:</b> {{maxTemp}}°C</ion-text>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col class="center">
-            <ion-text><b>Feuchtigkeit:</b> {{humidity}}%</ion-text>
-          </ion-col>
-          <ion-col class="center">
-            <ion-text><b>Regen:</b> {{rain}}%</ion-text>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col class="center">
-            <ion-text><b>Wind:</b> {{wind}}m/s</ion-text>
-          </ion-col>
-          <ion-col class="center">
-            <ion-text><b>Luftdruck:</b> {{pressure}}hPa</ion-text>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col class="center">
-            <ion-text><b>Sichtweite:</b> {{visibility}}km</ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <ion-item-divider>
-        <ion-label class="center">UTC+{{timezone}}h</ion-label>
-      </ion-item-divider>
-      <!-- Sonnen-auf- oder unter-gang eines Ortes -->
-      <ion-grid>
-        <ion-row class="ion-align-items-center">
-          <ion-col>
-            <ion-thumbnail>
-              <img src="../../assets/wetter/sonne/sonnenaufgang.png" alt="sunrise">
-            </ion-thumbnail>
-          </ion-col>
-          <ion-col>
-            <div>{{sunrise}}Uhr</div>
-          </ion-col>
-
-          <ion-col>
-            <ion-thumbnail>
-              <img src="../../assets/wetter/sonne/sonnenuntergang.png" alt="sunset">
-            </ion-thumbnail>
-          </ion-col>
-          <ion-col>
-            <div>{{sunset}}Uhr</div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item-group>
-</ion-card>
+      <ion-item-group>
+        <!-- Beschreibung des Ortes -->
+        <ion-item-divider>
+          <ion-text class="center" color="dark">{{currentDate | date: 'dd.MM.yyyy HH:mm' }} Uhr</ion-text>
+        </ion-item-divider>
+        <ion-item-divider>
+          <ion-text class="center" color="primary"><b>{{cityName}}, {{laenderCode}}</b></ion-text>
+        </ion-item-divider>
+        <ion-item lines="none">
+          <ion-text class="center"><b>Längengrad:</b> {{coordsLat}}</ion-text>
+          <ion-text class="center"><b>Breitengrad:</b> {{coordsLon}}</ion-text>
+        </ion-item>
+  
+  
+        <!-- Temperatur eines Ortes mit Wetter-->
+        <ion-item lines="none">
+          <ion-text class="center"><img [src]="wetterBildSource" alt="weatherImg"></ion-text>
+        </ion-item>
+        <ion-item-divider>
+          <ion-text class="center large-size">{{currentTemp}}°C</ion-text>
+        </ion-item-divider>
+        <ion-item lines="none">
+          <ion-text class="center"><b>gefühlt:</b> {{feelsLike}}°C</ion-text>
+        </ion-item>
+        <ion-grid>
+          <!-- Details zur Temperatur -->
+          <ion-row>
+            <ion-col class="center">
+              <ion-text><b>T:</b> {{minTemp}}°C</ion-text>
+            </ion-col>
+            <ion-col class="center">
+              <ion-text><b>H:</b> {{maxTemp}}°C</ion-text>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col class="center">
+              <ion-text><b>Feuchtigkeit:</b> {{humidity}}%</ion-text>
+            </ion-col>
+            <ion-col class="center">
+              <ion-text><b>Regen:</b> {{rain}}%</ion-text>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col class="center">
+              <ion-text><b>Wind:</b> {{wind}}m/s</ion-text>
+            </ion-col>
+            <ion-col class="center">
+              <ion-text><b>Luftdruck:</b> {{pressure}}hPa</ion-text>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col class="center">
+              <ion-text><b>Sichtweite:</b> {{visibility}}km</ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+  
+        <ion-item-divider>
+          <ion-label class="center">UTC+{{timezone}}h</ion-label>
+        </ion-item-divider>
+        <!-- Sonnen-auf- oder unter-gang eines Ortes -->
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col>
+              <ion-thumbnail>
+                <img src="../../assets/wetter/sonne/sonnenaufgang.png" alt="sunrise">
+              </ion-thumbnail>
+            </ion-col>
+            <ion-col>
+              <div>{{sunrise}}Uhr</div>
+            </ion-col>
+  
+            <ion-col>
+              <ion-thumbnail>
+                <img src="../../assets/wetter/sonne/sonnenuntergang.png" alt="sunset">
+              </ion-thumbnail>
+            </ion-col>
+            <ion-col>
+              <div>{{sunset}}Uhr</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        <ion-item>
+          <ion-button (click)="saveSearch()" color='secondary' slot="end">Vorhersage speichern</ion-button>
+        </ion-item>
+      </ion-item-group>
+  </ion-card>
 </ion-content>
