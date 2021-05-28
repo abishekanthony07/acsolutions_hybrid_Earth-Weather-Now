@@ -13,7 +13,7 @@
 
   <ion-toolbar color="primary">
     <ion-item lines="none" color="primary">
-      <ion-searchbar [(ngModel)]="city" enterkeyhint="enter" placeholder="Ort oder PLZ" autocomplete="postal-code"></ion-searchbar>
+      <ion-searchbar [(ngModel)]="city" enterkeyhint="enter" placeholder="Ort oder PLZ" autocomplete="postal-code" (keyup.enter)="search()"></ion-searchbar>
     </ion-item>
 
     <ion-buttons slot="primary">
