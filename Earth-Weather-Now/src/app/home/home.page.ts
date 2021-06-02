@@ -87,8 +87,8 @@ export class HomePage {
 
   async addComment(){
     const alert = await this.alertController.create({
-      header: 'Kommentar hinzufügen',
-      message: 'Zum Speichern können Sie einen Kommentar hinzufügen',
+      header: 'Notiz hinzufügen',
+      message: 'Hier können Sie eine Notiz hinterlassen, welche später in der Detailansicht angezeigt wird.',
       inputs: [
         {
           name: 'kommentar',

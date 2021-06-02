@@ -1,5 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { WeatherDataModel } from '../model/WeatherDataModel';
 import { SpeicherService } from '../speicher.service';
 
@@ -37,7 +39,10 @@ export class DetailviewPage implements OnInit {
   sunrise: string;
   sunset: string;
 
-  constructor(private router: Router, private speicherService: SpeicherService) {
+  constructor(private router: Router,
+    private datepipe: DatePipe,
+    private alertController: AlertController,
+    private speicherService: SpeicherService) {
    }
 
   async ngOnInit() {
@@ -50,8 +55,26 @@ export class DetailviewPage implements OnInit {
   }
 
   async deleteSearch(){
-    this.speicherService.deleteSearchItem(String(this.model.date));
+    const sicherheitsabfrage = `Möchten Sie die Wettervorhersage vom "${this.convertDate(this.model.date)} Uhr" 
+    von "${this.model.cityName}" löschen?`;
+    const deleteAlert = await this.alertController.create({
+      header: '',
+      message: sicherheitsabfrage,
+      backdropDismiss: false,
+      buttons: [{
+        text: 'Abbrechen',
+        role: 'Cancel',
+        handler: () =>{
+        }
+      }, {
+        text: 'Ja',
+        handler: async () => {
+          this.speicherService.deleteSearchItem(String(this.model.date));
     this.router.navigate(['save-list']);
+        }
+      }]
+    });
+    await deleteAlert.present();
   }
 
   private updateView(){
@@ -78,5 +101,10 @@ export class DetailviewPage implements OnInit {
             this.timezone = this.model.timezone;
             this.sunrise = this.model.sunrise;
             this.sunset = this.model.sunset;
+  }
+
+  private convertDate(datenumber: number): string{
+    const date = new Date().setTime(datenumber);
+    return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');
   }
 }
