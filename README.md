@@ -21,10 +21,9 @@ In diesem Projekt wird die WEB-API OpenWeather verwendet, mit welcher die aktuel
     - `avdmanager list avd` | sollte die installierten und verwendbaren Emulatoren anzeigen
 - mit einem *Versioncontroll* Projekt auschecken
     - `npm install` im Earth-Weather-Now--Ordner ausführen
-    - `ncu` ausführen
+    - (`ncu` ausführen)
     - `ionic info` ausführen  |  überprüfen, ob alle module installiert sind
     - `ionic cordova requirements android` ausführen
-    - optional: `ng test` ausführen
     - `ionic serve`  | sollte im WebBrowser die App anzeigen
     - `ionic cordova run browser`  | sollte eine WebApp installieren und im Browser öffnen
     - `ionic cordova run android` |  sollte auf einem android_Emulator die App installieren und öffnen
