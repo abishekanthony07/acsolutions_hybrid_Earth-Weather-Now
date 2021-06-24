@@ -48,6 +48,7 @@ export class WeatherDataModel {
             this.jsonResult = jsonResult;
     }
 
+    /**Umwandlung eines JSONS in WeatherDataModel */
     public static convertSavedJson(json: any): WeatherDataModel{
         const weather = new WeatherDataModel(json.result);
         weather.date = json.currentDate;

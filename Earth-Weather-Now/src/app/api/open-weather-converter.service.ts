@@ -15,6 +15,7 @@ export class OpenWeatherConverterService {
     return defaultValue;
   }
 
+  /**Kelvin zu Celsius */
   public static convertTemp(kelvin): string {
     return (kelvin - 273.15).toFixed(0);
   }
@@ -26,6 +27,7 @@ export class OpenWeatherConverterService {
     });
   }
 
+  /**Anzeigen der Icons */
   public static convertDescripton(description: any, date: number): string {
     switch (description) {
       case 'clear sky': {
@@ -109,6 +111,7 @@ export class OpenWeatherConverterService {
     }
   }
 
+  /**Überprüfung Tag oder Nacht */
   public static isDayTime(date: number): boolean {
     const hours = new Date(date).getHours();
     return hours > 6 && hours < 20;

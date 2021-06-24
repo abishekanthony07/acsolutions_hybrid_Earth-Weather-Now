@@ -3,7 +3,6 @@ import {WeatherService} from '../api/weather.service';
 import {HttpClient} from '@angular/common/http';
 import {SpeicherService} from '../speicher.service';
 import {AlertController} from '@ionic/angular';
-import {OpenWeatherConverterService} from '../api/open-weather-converter.service';
 import { WeatherDataModel } from '../model/WeatherDataModel';
 
 @Component({
@@ -62,11 +61,13 @@ export class HomePage {
     this.addComment();
   }
 
+  /**Erfolgsfall der Suche */
   async success(home: any, jsonResult: any) {
     home.result = jsonResult;
     home.showResult(true, jsonResult);
   }
 
+  /**Fehlerfall der Suche */
   async failed(home: any, titel: string, message: string) {
     home.showResult(false, undefined);
     home.emptyDataTitle = titel;
@@ -116,7 +117,7 @@ export class HomePage {
     alert.present();
   }
 
-  /**Information functions */
+  /**Information-Container functions */
   async loadHideInformation() {
     this.showHomeInformation = await this.speicherservice.getHideInformation();
     this.closeInformation = this.showHomeInformation;
@@ -149,6 +150,7 @@ export class HomePage {
     }
   }
 
+  /**Aktualisierung der View */
   private updateView(){
     this.currentDate = this.model.date;
     this. wetterBildSource = this.model.wetterBildSource;
