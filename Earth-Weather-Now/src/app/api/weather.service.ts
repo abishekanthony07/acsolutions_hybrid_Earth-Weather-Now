@@ -32,7 +32,17 @@ export class WeatherService {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
+  //Diese Methode baut die Server-URL zusammen
+  private getServerUrl(city: string, stateCode: string, countryCode: string): string {
+    let searchRequest = 'q=';
+    searchRequest = WeatherService.setUpSearchRequest(searchRequest, city);
+    searchRequest = WeatherService.setUpSearchRequest(searchRequest, stateCode);
+    searchRequest = WeatherService.setUpSearchRequest(searchRequest, countryCode);
+
+    return this.serverLink + searchRequest + this.apikey;
+  }
+
+  //Es werden Standard-Fehlermeldung für bestimmte HTTP-Error codes spezifiziert.
   private static handleResponseCode(home: any, code: number, failed: any) {
     switch (code) {
       case 400: {
@@ -67,7 +77,6 @@ export class WeatherService {
   }
 
   //Add Values to searchRequest-String if the value is valid!
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   private static setUpSearchRequest(searchRequest: string, value: string): string {
     if (value !== undefined && value !== '') {
       if (searchRequest !== 'q=') {
@@ -76,14 +85,5 @@ export class WeatherService {
       searchRequest += value;
     }
     return searchRequest;
-  }
-
-  private getServerUrl(city: string, stateCode: string, countryCode: string): string {
-    let searchRequest = 'q=';
-    searchRequest = WeatherService.setUpSearchRequest(searchRequest, city);
-    searchRequest = WeatherService.setUpSearchRequest(searchRequest, stateCode);
-    searchRequest = WeatherService.setUpSearchRequest(searchRequest, countryCode);
-
-    return this.serverLink + searchRequest + this.apikey;
   }
 }

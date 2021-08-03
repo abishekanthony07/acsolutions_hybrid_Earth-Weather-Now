@@ -25,20 +25,31 @@ export class SaveListPage implements OnInit {
 
   ngOnInit(): void {
   }
+  
+  ionViewWillEnter(){
+    this.loadHideInformation();
+    this.getList();
+  }
 
    /**Information functions */
+   //Die Info-Box wird geladen, wenn diese nicht für immer durch den Benutzer entfernt wurde
    async loadHideInformation() {
     this.showSavePageInformation = await this.speicherService.getHideSavePageInformation();
     this.closeInformation = this.showSavePageInformation;
   }
 
+  //Die Infobox wird ausgeblendet
+  //WICHTIG: Falls der Benutzer "Nicht mehr anzeigen" ausgewählt hatte, wird das entsprechend auf dem
+  //Gerät vermerkt und nie wieder angezeigt
+  //Ansonsten erscheint es beim erneuten Laden der Startseite
   async closeButtonPressed() {
     this.closeInformation = true;
     this.speicherService.setHideSavePageInformation(this.showSavePageInformation);
   }
 
   /** Daten von der Datenbank laden */
-
+  //Die Liste wird mit den gespeicherten Daten geladen
+  //Fall die Liste leer ist, wird eine entsprechende Nachricht angezeigt
   async getList(){
     const list =  await this.speicherService.getSearchList();
     this.listIsEmpty = true;
@@ -50,12 +61,8 @@ export class SaveListPage implements OnInit {
     this.weatherlist.reverse();
   }
 
-  ionViewWillEnter(){
-    this.loadHideInformation();
-    this.getList();
-  }
-
   /**Funktionen der kompletten Liste */
+  //Die Liste kann durch die Methode, über eine Sicherheitsabfrage, komplett geleert werden
   async deleteAll(){
     const sicherheitsabfrage = 'Möchten Sie alle Wettervorhersagen löschen?';
     const deleteAlert = await this.alertController.create({
@@ -78,11 +85,13 @@ export class SaveListPage implements OnInit {
     await deleteAlert.present();
   }
 
+  //Diese Methode ändert die RIchtung der Sortierung (auf-/absteigende)
   async sortList(){
     this.weatherlist.reverse();
   }
 
   /** Navigation zu Detailansicht */
+  //Wenn auf ein Wetter gelickt wird, wird eine neue View aufgerufen, welche die Detailansicht lädt
   async onClicked(weather: WeatherDataModel){
     this.speicherService.setCurrentSelectedWeather(weather);
     this.route.navigate(['detailview']);
@@ -90,10 +99,13 @@ export class SaveListPage implements OnInit {
 
 
   /** Löschen einzelner Daten */
+  // Über einen Swipe kann das geswipte Wetter gelöscht werden
+  // Nur durch Bestätigung in der Sicherheitsabfrage möglich!
   async onLoeschen(weather: WeatherDataModel, slider: IonItemSliding){
     await this.deleteAlert(weather, slider);
   }
 
+  //Alert, welche die Sicherheitsabfrage für ein einzelnes Wetter aufbaut
   private async deleteAlert(currentWeather: WeatherDataModel, slider: IonItemSliding){
     const sicherheitsabfrage = `Möchten Sie die Wettervorhersage vom "${this.convertDate(currentWeather.date)} Uhr" 
     von "${currentWeather.cityName}" löschen?`;
@@ -118,6 +130,7 @@ export class SaveListPage implements OnInit {
     await deleteAlert.present();
   }
 
+  //Das Datum wird in ein valides (für einen Menschen leserliches) transformiert
   private convertDate(datenumber: number): string{
     const date = new Date().setTime(datenumber);
     return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');

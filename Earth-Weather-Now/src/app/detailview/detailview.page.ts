@@ -45,6 +45,8 @@ export class DetailviewPage implements OnInit {
     private speicherService: SpeicherService) {
    }
 
+   //Das angeklickte Wetter aus der Listenansicht wird geholt.
+   //Fall das Model invalide ist, wird wieder zurück navigiert, um die Fehleransicht zu vermeiden
   async ngOnInit() {
     this.model = await this.speicherService.getCurrentSelectedWeather();
     if (!this.model){
@@ -54,6 +56,7 @@ export class DetailviewPage implements OnInit {
     }
   }
 
+  //Diese Methode baut einen Alert auf, über welchen das Wetter gelöscht werden kann
   async deleteSearch(){
     const sicherheitsabfrage = `Möchten Sie die Wettervorhersage vom "${this.convertDate(this.model.date)} Uhr" 
     von "${this.model.cityName}" löschen?`;
@@ -77,6 +80,7 @@ export class DetailviewPage implements OnInit {
     await deleteAlert.present();
   }
 
+  //Die View wird mit den Model-Daten aufgebaut
   private updateView(){
     this.currentDate = this.model.date;
     this.sucheingabe = this.model.jsonResult.search.city;
@@ -103,6 +107,7 @@ export class DetailviewPage implements OnInit {
             this.sunset = this.model.sunset;
   }
 
+  //Das Datum wird in ein valides (für einen Menschen lesbares) Datum transformiert
   private convertDate(datenumber: number): string{
     const date = new Date().setTime(datenumber);
     return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');

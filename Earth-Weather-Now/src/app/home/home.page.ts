@@ -42,14 +42,20 @@ export class HomePage {
   sunrise: string;
   sunset: string;
 
-  constructor(private httpClient: HttpClient, private speicherservice: SpeicherService, private alertController: AlertController) {
-  }
+  constructor(
+    private httpClient: HttpClient, 
+    private speicherservice: SpeicherService, 
+    private alertController: AlertController
+    ) {
+    }
 
   ionViewWillEnter(){
     this.loadHideInformation();
   }
 
   /**Search and show data functions */
+  //Diese Methode ist zuständig für die Suche vom Wetter eines Ortes
+  //Bei einem Fehler wird entsprechend die Methode zum Anzeigen des Fehlers aufgerufen
   async search() {
     const dataToShow = new WeatherService(this.httpClient).getData(this, this.success, this.failed);
     if (!dataToShow) {
@@ -57,17 +63,22 @@ export class HomePage {
     }
   }
 
+  //Wenn die Suche gespeichert werden soll, wird vorerst 
+  //die Methode zum Hinzufügen eines Kommentars ausgeführt
   async saveSearch() {
     this.addComment();
   }
 
   /**Erfolgsfall der Suche */
+  //home ist in diesem fall diese Klasse; (aufgrund von Referenzproblem so gelöst)
+  //Somit wird im Erfolgsfall die Methode zum Anzeigen der Daten aufgerufen
   async success(home: any, jsonResult: any) {
     home.result = jsonResult;
     home.showResult(true, jsonResult);
   }
 
   /**Fehlerfall der Suche */
+  //Bei einem Fehler wird die View entsprechend angezeigt und der Benutzer benachrichtigt
   async failed(home: any, titel: string, message: string) {
     home.showResult(false, undefined);
     home.emptyDataTitle = titel;
@@ -75,6 +86,7 @@ export class HomePage {
     await home.alertUser(titel, message);
   }
 
+  //Default-Methode, welche einen Alert aufbaut
   async alertUser(titel: string, nachricht: string) {
     const alert = await this.alertController.create({
       cssClass: 'alertMessage',
@@ -86,6 +98,8 @@ export class HomePage {
     await alert.present();
   }
 
+  //Ein Kommentar KANN hinzugefügt werden, wenn man das Wetter speichern möchte.
+  //WEnn auf speichern geklickt wird, wir das Wetter lokal auf dem Gerät gespeichert.
   async addComment(){
     const alert = await this.alertController.create({
       header: 'Notiz hinzufügen',
@@ -118,22 +132,29 @@ export class HomePage {
   }
 
   /**Information-Container functions */
+  //Die Info-Box wird geladen, wenn diese nicht für immer durch den Benutzer entfernt wurde
   async loadHideInformation() {
     this.showHomeInformation = await this.speicherservice.getHideInformation();
     this.closeInformation = this.showHomeInformation;
   }
 
+  //Die Infobox wird ausgeblendet
+  //WICHTIG: Falls der Benutzer "Nicht mehr anzeigen" ausgewählt hatte, wird das entsprechend auf dem
+  //Gerät vermerkt und nie wieder angezeigt
+  //Ansonsten erscheint es beim erneuten Laden der Startseite
   async closeButtonPressed() {
     this.closeInformation = true;
     this.speicherservice.setHideInformation(this.showHomeInformation);
   }
 
   /** Toolbar functions */
+  //Die Felder für die Erweiterte Suche wird eingeblendet
   async onErweitert(){
     this.erweiterteSuche = !this.erweiterteSuche;
     this.resetErweitertValuesIfHidden();
   }
 
+  //Wenn die Erweiterte Suche geschlossen wird, werden dessen Felder geresetet
   private resetErweitertValuesIfHidden(){
     if(!this.erweiterteSuche && !this.resultExists) {
       this.stateCode = '';
@@ -142,6 +163,7 @@ export class HomePage {
   }
 
   /**Show result */
+  //Diese MEthode zeigt die Daten des Models an der Oberfläche an
   private showResult(value: boolean, jsonResult: any){
     this.resultExists = value;
     if(jsonResult){
